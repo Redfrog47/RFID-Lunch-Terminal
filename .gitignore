@@ -1,0 +1,11 @@
+#Compiled java files
+*.class
+
+#Compiled java programs
+*.jar
+
+#Spreadsheets and DataKeys
+*.csv
+
+#Executables
+*.exe

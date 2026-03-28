@@ -1,0 +1,46 @@
+import java.util.ArrayList;
+import java.time.LocalTime;
+
+
+public class CardScanData {
+	StudentData student;
+	boolean tardy;
+	boolean suspicious;
+	ArrayList<LocalTime> times;
+	
+	public CardScanData(StudentData _student, LocalTime firstScan) {
+		student = _student;
+		times = new ArrayList<LocalTime>();
+		times.add(LocalTime.of(firstScan.getHour(), firstScan.getMinute()));
+		
+		tardy = false;
+		suspicious = false;
+	}
+	
+	public CardScanData(StudentData _student, boolean _tardy, boolean _suspicious, ArrayList<LocalTime> _times) {
+		student = _student;
+		tardy = _tardy;
+		suspicious = _suspicious;
+		times = _times;
+	}
+	
+	public void OnScan(LocalTime time) {
+		time = LocalTime.of(time.getHour(), time.getMinute());
+		times.add(time);
+	}
+	
+	public void FormatToSave() {
+		if(times.size() % 2 == 0) {
+			suspicious = false;
+		}
+		else {
+			suspicious = true;
+		}
+		
+		for(int i = 0; i < times.size(); i++) {
+			if(times.get(i).isAfter(LunchBell.bellTime)) {
+				tardy = true;
+			}
+		}
+	}
+}

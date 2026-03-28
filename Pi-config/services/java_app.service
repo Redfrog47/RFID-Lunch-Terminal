@@ -1,0 +1,15 @@
+[Unit]
+Description=Java Application
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/home/pi/RFID-Lunch-Terminal/Java-pi
+ExecStart=/usr/bin/java -jar /home/pi/RFID-Lunch-Terminal/Java-pi/app.jar
+Restart=always
+RestartSec=3
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,14 @@
+[Unit]
+Description=USB Gadget Setup
+After=multi-user.target
+Requires=systemd-modules-load.service
+
+[Service]
+Type=oneshot
+ExecStartPre=/usr/sbin/modprobe libcomposite
+ExecStartPre=/usr/bin/mount -t configfs none /sys/kernel/config
+ExecStart=/usr/bin/usb-gadget.sh
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target
