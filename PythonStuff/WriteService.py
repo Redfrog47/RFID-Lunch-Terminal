@@ -17,8 +17,6 @@ led = LED(22)
 def beep():
     buzzer.beep(on_time=0.3, off_time=0.2, n=1, background=True)
 
-def blink():
-    led.blink(on_time=0.3, off_time=0.2, n=1, background=True)
 
 def connect() :
      while True:
@@ -27,6 +25,9 @@ def connect() :
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             sock.connect((HOST, PORT))
             print("Socket connected")
+
+            led.on()
+            
             return sock
         except ConnectionRefusedError:
            print("Connection failed")
@@ -49,7 +50,6 @@ def writeLoop() :
                     index = int(message[5:])
                 except ValueError:
                     sock.sendall(b"IError\n")
-                    blink()
                     continue
                 if index >= 0:
                     write_index(index)
@@ -57,11 +57,11 @@ def writeLoop() :
                     print("Sent ISaved")
                 else:
                     sock.sendall(b"IError\n")
-                    blink()
         except (BrokenPipeError, ConnectionResetError):
                 print("Write socket disconnected. Reconnecting...")
                 sock.close()
                 sock = connect()
+                led.off()
 
         except Exception as e:
             print(f"Write loop error: {e}")
@@ -78,4 +78,5 @@ def write_index(index) :
 try :
     writeLoop()
 finally :
+    led.off()
     GPIO.cleanup()

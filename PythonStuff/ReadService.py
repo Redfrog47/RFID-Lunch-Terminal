@@ -27,6 +27,9 @@ def connect() :
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             sock.connect((HOST, PORT))
             print("Socket connected")
+
+            led.blink(on_time=0.5, off_time=0.5, background=True)
+
             return sock
         except ConnectionRefusedError:
            print("Connection failed")
@@ -35,8 +38,6 @@ def connect() :
 def handleBeep():
     buz.beep(on_time=0.4, off_time=0.5, n=1, background=True)
 
-def handleBlink():
-    led.blink(on_time=0.5, off_time=0.5, n=1, background=True)
 
 while True:
     try:
@@ -62,7 +63,9 @@ while True:
 
     except (BrokenPipeError, ConnectionResetError):
         print("Lost connection")
+        led.off()
     except (KeyboardInterrupt):
         break
     finally:
+        led.off()
         GPIO.cleanup()
