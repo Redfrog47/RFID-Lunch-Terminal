@@ -13,8 +13,6 @@ public class ActiveFileHandler {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
 
         LocalDate date = LocalDate.now();
-
-        System.out.println("Setting filepath to: " + "Spreadsheets/" + date.format(formatter) + ".csv");
         
         return "Spreadsheets/" + date.format(formatter) + ".csv";
     }

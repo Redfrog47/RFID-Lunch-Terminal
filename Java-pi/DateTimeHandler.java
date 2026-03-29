@@ -29,8 +29,6 @@ public class DateTimeHandler {
 
         LocalTime realLocalTime = LocalDateTime.parse(realTimeFromWindows, formatter).toLocalTime();
 
-        System.out.println("Comparing: " + LocalTime.now().toString() + " with " + realLocalTime.toString());
-        
         int timeDrift = (int)Duration.between(LocalTime.now(), realLocalTime).toMinutes();
 
         SetSystemTime(realTimeFromWindows);
