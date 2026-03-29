@@ -88,6 +88,15 @@ public class SocketHandler {
 			int studentId = GetInputInt(data);
 			//System.out.println("Looking for student #" + studentId);
 			scanHandler.ScanStudentById(studentId);
+		} else if (deviceId == 'T') {
+			System.out.println("Fixing internal times");
+			String realTimeFromWindows = data.substring(1);
+			try {
+				scanHandler.FixCardScanTimes(DateTimeHandler.FindTimeDriftAndResetSystemTime(realTimeFromWindows));
+				System.out.println("Fixed times");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		else {
 			System.out.println("Error with input data");

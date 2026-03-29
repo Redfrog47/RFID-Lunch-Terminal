@@ -27,7 +27,7 @@ public class ScanHandler {
 		CardScanData scan = CardAlreadyScanned(cardIndex);
 		
 		if(scan != null) {
-			scan.OnScan((LocalTime.now(ZoneId.of("America/New_York"))));
+			scan.OnScan((LocalTime.now()));
 			//System.out.println("Card with index " + cardIndex + " has been rescanned");
 		} else {
 		StudentData studentData = null;
@@ -94,5 +94,11 @@ public class ScanHandler {
 
 	public void UpdateKey() {
 		key.UpdateDataKey();
+	}
+
+	public void FixCardScanTimes(int timeDrift) {
+		for(int i = 0; i < cardsScanned.size(); i++) {
+			cardsScanned.get(i).FixTimes(timeDrift);
+		}
 	}
 }

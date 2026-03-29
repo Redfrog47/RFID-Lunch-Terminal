@@ -1,5 +1,8 @@
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+
+import javax.swing.plaf.synth.SynthEditorPaneUI;
+
 import java.time.LocalDate;
 
 public class ActiveFileHandler {
@@ -13,8 +16,9 @@ public class ActiveFileHandler {
     public static String GetDate() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
 
-        ZoneId zone = ZoneId.of("America/New_York");
-        LocalDate date = LocalDate.now(zone);
+        LocalDate date = LocalDate.now();
+
+        System.out.println("Setting filepath to: " + "Spreadsheets/" + date.format(formatter) + ".csv");
         
         return "Spreadsheets/" + date.format(formatter) + ".csv";
     }

@@ -6,6 +6,8 @@ import java.net.ConnectException;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class ScanSocket {
     int port;
@@ -50,6 +52,7 @@ public class ScanSocket {
 	}
 
 	void HandleSocket() {
+		UpdatePiSystemTimeOnConnection();
 		try {
 			String data;
 			while ((data = in.readLine()) != null) {
@@ -65,5 +68,19 @@ public class ScanSocket {
 
 	public void SendIdScan(String id) {
 		out.println("U" + id);
+	}
+
+	public void SendRealTime(String realTime) {
+		System.out.println("Sending real time: " + realTime);
+		out.println("T" + realTime);
+	}
+
+	String FormatRealTime() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm:ss");
+		return LocalDateTime.now().format(formatter);
+	}
+
+	void UpdatePiSystemTimeOnConnection() {
+		SendRealTime(FormatRealTime());
 	}
 }
