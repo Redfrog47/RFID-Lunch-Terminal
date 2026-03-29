@@ -46,6 +46,7 @@ public class CardScanData {
 
 	public void FixTimes(int timeDrift) {
 		for (int i = 0; i < times.size(); i++) {
+			System.out.println(times.get(i).toString() + " -> " + times.get(i).plusMinutes(timeDrift));
 			LocalTime time = times.get(i).plusMinutes(timeDrift);
 			times.set(i, time);
 		}

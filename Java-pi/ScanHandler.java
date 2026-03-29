@@ -100,5 +100,7 @@ public class ScanHandler {
 		for(int i = 0; i < cardsScanned.size(); i++) {
 			cardsScanned.get(i).FixTimes(timeDrift);
 		}
+
+		SaveToSheet(GlobalFilepaths.globalSheetPath);
 	}
 }

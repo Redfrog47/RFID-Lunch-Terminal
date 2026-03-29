@@ -1,6 +1,8 @@
 
 public class Main {	
 	public static void main(String[] args) {
+		DateTimeHandler.SetTimeSynced(false);
+
 		String date = ActiveFileHandler.GetDate();
 		GlobalFilepaths.SetGlobalSheetPath(date);
 

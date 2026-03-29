@@ -89,13 +89,16 @@ public class SocketHandler {
 			//System.out.println("Looking for student #" + studentId);
 			scanHandler.ScanStudentById(studentId);
 		} else if (deviceId == 'T') {
-			System.out.println("Fixing internal times");
-			try {
-				scanHandler.FixCardScanTimes(DateTimeHandler.FindTimeDriftAndResetSystemTime(data));
-				System.out.println("Fixed times");
-			} catch (Exception e) {
-				e.printStackTrace();
+			if(DateTimeHandler.IsTimeSynced()) {
+				System.out.println("Fixing internal times");
+				try {
+					scanHandler.FixCardScanTimes(DateTimeHandler.FindTimeDriftAndResetSystemTime(data));
+					System.out.println("Fixed times");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
+			
 		}
 		else {
 			System.out.println("Error with input data");
