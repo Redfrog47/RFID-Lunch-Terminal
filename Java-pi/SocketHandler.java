@@ -89,7 +89,7 @@ public class SocketHandler {
 			//System.out.println("Looking for student #" + studentId);
 			scanHandler.ScanStudentById(studentId);
 		} else if (deviceId == 'T') {
-			if(DateTimeHandler.IsTimeSynced()) {
+			if(!DateTimeHandler.IsTimeSynced()) {
 				System.out.println("Fixing internal times");
 				try {
 					scanHandler.FixCardScanTimes(DateTimeHandler.FindTimeDriftAndResetSystemTime(data));
