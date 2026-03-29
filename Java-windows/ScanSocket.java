@@ -76,7 +76,7 @@ public class ScanSocket {
 	}
 
 	String FormatRealTime() {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm:ss");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		return LocalDateTime.now().format(formatter);
 	}
 

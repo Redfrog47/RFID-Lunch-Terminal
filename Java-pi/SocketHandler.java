@@ -90,9 +90,8 @@ public class SocketHandler {
 			scanHandler.ScanStudentById(studentId);
 		} else if (deviceId == 'T') {
 			System.out.println("Fixing internal times");
-			String realTimeFromWindows = data.substring(1);
 			try {
-				scanHandler.FixCardScanTimes(DateTimeHandler.FindTimeDriftAndResetSystemTime(realTimeFromWindows));
+				scanHandler.FixCardScanTimes(DateTimeHandler.FindTimeDriftAndResetSystemTime(data));
 				System.out.println("Fixed times");
 			} catch (Exception e) {
 				e.printStackTrace();
