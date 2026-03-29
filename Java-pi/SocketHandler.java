@@ -61,9 +61,8 @@ public class SocketHandler {
 
 	//Assumes that data beginning with 'P' is sent locally from the Pi
 	//Data beginning with 'U' assumed to be sent over USB
+	//Data beginning with 'T' assumed to be sent over USB to sync time
 	void HandleInput(String data) {
-		System.out.println(data);
-
 		char deviceId = data.charAt(0);
 		data = data.substring(1);
 
@@ -89,16 +88,12 @@ public class SocketHandler {
 			//System.out.println("Looking for student #" + studentId);
 			scanHandler.ScanStudentById(studentId);
 		} else if (deviceId == 'T') {
-			if(!DateTimeHandler.IsTimeSynced()) {
-				System.out.println("Fixing internal times");
-				try {
-					scanHandler.FixCardScanTimes(DateTimeHandler.FindTimeDriftAndResetSystemTime(data));
-					System.out.println("Fixed times");
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+			System.out.println("Fixing internal times");
+			try {
+				scanHandler.FixCardScanTimes(DateTimeHandler.FindTimeDriftAndResetSystemTime(data));
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-			
 		}
 		else {
 			System.out.println("Error with input data");

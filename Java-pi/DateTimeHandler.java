@@ -4,17 +4,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.Duration;
 
 public class DateTimeHandler {
-
-    static boolean timeSynced;
-
-    public static void SetTimeSynced(boolean _timeSynced) {
-        timeSynced = _timeSynced;
-    }
-
-    public static boolean IsTimeSynced() {
-        return timeSynced;
-    }
-
     /// Takes date and time formatted as "yyyy-MM-dd HH:mm:ss"
     public static void SetSystemTime(String formattedDateTime) throws Exception {
         ProcessBuilder processBuilder = new ProcessBuilder(
@@ -30,8 +19,6 @@ public class DateTimeHandler {
         }
 
         System.out.println("Set date and time to: " + formattedDateTime);
-
-        timeSynced = true;
     }
 
     
