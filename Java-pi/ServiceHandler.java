@@ -1,3 +1,4 @@
+import java.io.IOException;
 
 public class ServiceHandler {
     public static String readService = "rfid-reader.service";
@@ -102,6 +103,14 @@ public class ServiceHandler {
         Thread.sleep(10000);
 
         EnsureServiceActive(connection);
+    }
+
+    public static void ShutDownSystem() throws Exception {
+        ProcessBuilder processBuilder = new ProcessBuilder(
+            "shutdown", "now"
+        );
+
+        processBuilder.start();
     }
 }
 

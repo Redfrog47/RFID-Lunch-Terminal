@@ -121,4 +121,8 @@ public class KeySocket {
 	void SetNewBellTime(String timeString) {
 		currentBellTime = timeString;
 	}
+
+	void ShutdownPi() {
+		out.println("Shutdown");
+	}
 }

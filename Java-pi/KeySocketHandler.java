@@ -87,6 +87,9 @@ public class KeySocketHandler {
 				if(data.length() > 3 && data.substring(0, 4).equals("Time")) {
 					new Thread(() -> SendCurrentBellTime(LunchBell.BellTimeFromFile().toString())).start();
 				}
+				if(data.length() > 7 && data.substring(0, 8).equals("Shutdown")) {
+					new Thread(() -> ShutdownPi()).start();
+				}
 		}
 
 		sockList.remove(socket);
@@ -157,6 +160,14 @@ public class KeySocketHandler {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		}
+	}
+
+	void ShutdownPi() {
+		try {
+			ServiceHandler.ShutDownSystem();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }

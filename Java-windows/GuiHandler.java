@@ -38,10 +38,6 @@ public class GuiHandler {
         mainFrame.setVisible(true);
     }
 
-    public static void InitGUI(ScanSocket scanSocket, SheetSocket sheetSocket, KeySocket keySocket) {
-        CreateMainFrame(scanSocket, sheetSocket, keySocket);
-    }
-
     JFrame CreateMainFrameOOP() {
         JFrame mainFrame = new JFrame("Lunch Terminal");
         mainFrame.setSize(400, 300);
@@ -95,7 +91,7 @@ public class GuiHandler {
         });
 
         keySetupButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        JButton keySetupButton = new JButton("File Manager");
+        JButton keySetupButton = new JButton("Device Manager");
         keySetupButtonPanel.add(keySetupButton);
 
         keySetupButton.addActionListener(e -> {
@@ -108,7 +104,7 @@ public class GuiHandler {
         });
 
         closedPanel = new JPanel();
-        JLabel message = new JLabel("Close File Manager use terminal");
+        JLabel message = new JLabel("Close Device Manager use terminal");
 
         closedPanel.add(message, BorderLayout.CENTER);
 
@@ -160,7 +156,7 @@ public class GuiHandler {
     }
 
     JFrame CreateKeyFrameOOP() {
-        JFrame keyFrame = new JFrame("File Manager");
+        JFrame keyFrame = new JFrame("Device Manager");
         keyFrame.setSize(300, 400);
         keyFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); 
 
@@ -227,6 +223,16 @@ public class GuiHandler {
         bellUpdateButton.addActionListener(e -> {
             currentBell.setText("Current bell time: " + keySocket.CurrentBellTime());
             cardLayout.show(cardPanel, "Bell");
+        });
+
+        gbc.gridy = 4;
+        JButton shutdownButton = new JButton("Shutdown Pi");
+        panel.add(shutdownButton, gbc);
+
+        shutdownButton.addActionListener(e -> {
+            ConfirmPanel(cardLayout, cardPanel, "Are you sure you want to shutdown the Pi?", e1 -> {
+                keySocket.ShutdownPi();
+            });
         });
 
         JPanel closePanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -522,285 +528,6 @@ public class GuiHandler {
         }
     }
     
-    static void CreateMainFrame(ScanSocket scanSocket, SheetSocket sheetSocket, KeySocket keySocket) {
-        JFrame mainFrame = new JFrame("Lunch Terminal");
-        mainFrame.setSize(400, 300);
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
-        mainFrame.setLocationRelativeTo(null);
-
-        ImageIcon icon = new ImageIcon("iconGeeked.png");
-        mainFrame.setIconImage(icon.getImage());
-
-        mainFrame.setLayout(new BorderLayout(10, 10));
-
-        JPanel panel = new JPanel(); 
-        panel.setLayout(new GridBagLayout());
-        panel.setBorder(BorderFactory.createEmptyBorder(12, 40, 12, 40));
-
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new java.awt.Insets(30, 5, 5, 5);
-        gbc.anchor = GridBagConstraints.WEST;
-        
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        panel.add(new JLabel("ID scan:"), gbc);
-
-        gbc.gridx = 1;
-        JTextField usernameField = new JTextField(15);
-        panel.add(usernameField, gbc);
-
-        usernameField.addActionListener(e -> {
-            String text = usernameField.getText();
-            usernameField.setText("");
-            scanSocket.SendIdScan(text);
-        });
-        
-        gbc.gridx = 1;
-        gbc.gridy = 5;
-        JButton button = new JButton("Pull sheet");
-        panel.add(button, gbc);
-
-        button.addActionListener(e -> {
-            sheetSocket.PullRequested();
-        });
-
-        JPanel keySetupButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        JButton keySetupButton = new JButton("File Manager");
-        keySetupButtonPanel.add(keySetupButton);
-
-        keySetupButton.addActionListener(e -> {
-            CreateKeyFrame(sheetSocket, keySocket);
-        });
-        
-
-        mainFrame.add(panel, BorderLayout.NORTH);
-        mainFrame.add(keySetupButtonPanel, BorderLayout.SOUTH);
-
-        mainFrame.setVisible(true);
-    }
-
-    static void CreateKeyFrame(SheetSocket sheetSocket, KeySocket keySocket) {
-        JFrame keyFrame = new JFrame("File Manager");
-        keyFrame.setSize(300, 400);
-        keyFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); 
-        keyFrame.setLocationRelativeTo(null);
-
-        ImageIcon icon = new ImageIcon("iconGeeked.png");
-        keyFrame.setIconImage(icon.getImage());
-
-        keyFrame.setLayout(new BorderLayout(10, 10));
-
-        CardLayout cardLayout = new CardLayout();
-        JPanel cardPanel = new JPanel(cardLayout);
-
-        JPanel mainPagePanel = new JPanel(new BorderLayout());
-
-        JPanel panel = new JPanel(); 
-        panel.setLayout(new GridBagLayout());
-        panel.setBorder(BorderFactory.createEmptyBorder(15, 40, 10, 40));
-
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new java.awt.Insets(20, 5, 5, 5);
-        gbc.anchor = GridBagConstraints.NORTH;
-
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        JButton add = new JButton("Add Student");
-        panel.add(add, gbc);
-
-        add.addActionListener(e -> 
-            cardLayout.show(cardPanel, "Add")
-        );
-
-        gbc.gridy = 1;  
-        JButton send = new JButton("Erase Data");
-        panel.add(send, gbc);
-
-        send.addActionListener(e -> 
-            cardLayout.show(cardPanel, "Clear")
-        );
-
-        gbc.gridy = 2;
-        JButton pullAll = new JButton("Pull all Sheets");
-        panel.add(pullAll, gbc);
-
-        pullAll.addActionListener(e -> {
-            sheetSocket.PullAllSheets();
-            cardLayout.show(cardPanel, "Panel");
-        });
-
-        JPanel closePanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-
-        JButton close = new JButton("Close");
-        closePanel.add(close);
-
-        mainPagePanel.add(closePanel, BorderLayout.SOUTH);
-
-        close.addActionListener(e -> 
-            keyFrame.dispose()
-        );
-
-        mainPagePanel.add(panel, BorderLayout.NORTH);
-
-        JPanel cancelPanel = new JPanel(new BorderLayout());
-
-        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-
-        JButton cancel = new JButton("Cancel");
-        bottomPanel.add(cancel, gbc);
-
-        cancelPanel.add(bottomPanel, BorderLayout.SOUTH);
-
-        cancel.addActionListener(e -> 
-            cardLayout.show(cardPanel, "Panel")
-        );
-
-        JPanel stuAddPage = new JPanel(new BorderLayout());
-
-        JPanel stuAddContents = new JPanel();
-        stuAddContents.setLayout(new GridBagLayout());
-        stuAddContents.setBorder(BorderFactory.createEmptyBorder(12, 5, 12, 5));
-
-        GridBagConstraints gbc2 = new GridBagConstraints();
-        gbc2.insets = new java.awt.Insets(15, 5, 5, 5);
-        gbc2.anchor = GridBagConstraints.WEST;
-
-        JTextField stuId = new JTextField(15);
-        JTextField fName = new JTextField(15);
-        JTextField lName = new JTextField(15);
-        JButton sendButton = new JButton("Send");
-
-        stuId.addActionListener(e -> {
-            StudentAdded(stuId, fName, lName, keySocket);
-        });
-
-        fName.addActionListener(e -> {
-            StudentAdded(stuId, fName, lName, keySocket);
-        });
-
-        lName.addActionListener(e -> {
-            StudentAdded(stuId, fName, lName, keySocket);
-        });
-
-        sendButton.addActionListener(e -> {
-            StudentAdded(stuId, fName, lName, keySocket);
-        });
-
-        JLabel stuIdLabel = new JLabel("Student ID:");
-        JLabel fNameLabel = new JLabel("First name:");
-        JLabel lNameLabel = new JLabel("Last name:");
-
-        gbc2.gridx = 0;
-        gbc2.gridy = 0;
-        stuAddContents.add(stuIdLabel, gbc2);
-
-        gbc2.gridx = 1;
-        stuAddContents.add(stuId, gbc2);
-
-        gbc2.gridx = 0;
-        gbc2.gridy = 1;
-        stuAddContents.add(fNameLabel, gbc2);
-
-        gbc2.gridx = 1;
-        stuAddContents.add(fName, gbc2);
-
-        gbc2.gridx = 0;
-        gbc2.gridy = 2;
-        stuAddContents.add(lNameLabel, gbc2);
-        
-        gbc2.gridx = 1;
-        stuAddContents.add(lName, gbc2);
-
-        gbc2.gridy = 3;
-        stuAddContents.add(sendButton, gbc2);
-
-        stuAddPage.add(stuAddContents, BorderLayout.NORTH);
-        
-        JPanel bottomPanel2 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-
-        JButton cancel2 = new JButton("Cancel");
-        bottomPanel2.add(cancel2);
-
-        stuAddPage.add(bottomPanel2, BorderLayout.SOUTH);
-
-        cancel2.addActionListener(e -> 
-            cardLayout.show(cardPanel, "Panel")
-        );
-
-        JPanel yearClearPage = new JPanel(new BorderLayout());
-
-        JPanel yearClearContents = new JPanel();
-        yearClearContents.setLayout(new GridBagLayout());
-        yearClearContents.setBorder(BorderFactory.createEmptyBorder(12, 5, 12, 5));
-
-        GridBagConstraints gbc3 = new GridBagConstraints();
-        gbc3.insets = new java.awt.Insets(15, 5, 5, 5);
-        gbc3.anchor = GridBagConstraints.WEST;
-
-        JLabel warning = new JLabel("What would you like to clear?");
-        JButton clearAll = new JButton("Key and Sheets");
-        JButton clearKey = new JButton("Key");
-        JButton clearSheets = new JButton("Sheets");
-        
-        clearAll.addActionListener(e -> {
-            ConfirmPanel(cardLayout, cardPanel, "Data and Sheets", e1 -> {
-                ClearDataForNewYear(keySocket);
-                cardLayout.show(cardPanel, "Panel");
-            });
-        });
-
-        clearKey.addActionListener(e -> {
-            ConfirmPanel(cardLayout, cardPanel, "Key", e1 -> {
-                ClearKey(keySocket);
-                cardLayout.show(cardPanel, "Panel");
-            });
-        });
-
-        clearSheets.addActionListener(e -> {
-            ConfirmPanel(cardLayout, cardPanel, "all Sheets", e1 -> {
-                ClearSheet(keySocket);
-                cardLayout.show(cardPanel, "Panel");
-            });
-        });
-        
-        gbc3.gridx = 0;
-        gbc3.gridy = 0;
-        yearClearContents.add(warning, gbc3);
-
-        gbc3.anchor = GridBagConstraints.CENTER;
-
-        gbc3.gridx = 0;
-        gbc3.gridy = 1;
-        yearClearContents.add(clearAll, gbc3);
-
-        gbc3.gridy = 2;
-        yearClearContents.add(clearKey, gbc3);
-
-        gbc3.gridy = 3;
-        yearClearContents.add(clearSheets, gbc3);
-
-        yearClearPage.add(yearClearContents, BorderLayout.NORTH);
-
-        JPanel bottomPanel3 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-
-        JButton cancel3 = new JButton("Cancel");
-        bottomPanel3.add(cancel3);
-
-        yearClearPage.add(bottomPanel3, BorderLayout.SOUTH);
-
-        cancel3.addActionListener(e -> 
-            cardLayout.show(cardPanel, "Panel")
-        );
-
-        cardPanel.add(mainPagePanel, "Panel");
-        cardPanel.add(cancelPanel, "Cancel");
-        cardPanel.add(stuAddPage, "Add");
-        cardPanel.add(yearClearPage, "Clear");
-
-        keyFrame.add(cardPanel, BorderLayout.CENTER);
-        keyFrame.setVisible(true);
-    }
-
     public static void ConfirmPanel(CardLayout cardLayout, JPanel cardPanel, String name, ActionListener action) {
         JPanel page = new JPanel(new BorderLayout());
         JPanel panel = new JPanel(); 
@@ -833,7 +560,7 @@ public class GuiHandler {
         page.add(bottomPanel, BorderLayout.SOUTH);
 
         cancel.addActionListener(e -> 
-            cardLayout.show(cardPanel, "Clear")
+            cardLayout.show(cardPanel, "Panel")
         );
 
         cardPanel.add(page, name);
