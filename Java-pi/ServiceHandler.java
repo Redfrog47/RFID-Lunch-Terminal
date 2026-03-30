@@ -1,5 +1,3 @@
-import java.io.IOException;
-
 public class ServiceHandler {
     public static String readService = "rfid-reader.service";
     public static String writeService = "rfid-writer.service";

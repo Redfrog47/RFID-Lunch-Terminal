@@ -232,6 +232,10 @@ public class GuiHandler {
         shutdownButton.addActionListener(e -> {
             ConfirmPanel(cardLayout, cardPanel, "Are you sure you want to shutdown the Pi?", e1 -> {
                 keySocket.ShutdownPi();
+                keyFrame.dispose();
+                mainFrame.dispose();
+
+                System.exit(0);
             });
         });
 
