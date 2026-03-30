@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 
 public class SocketHandler {
@@ -55,7 +56,10 @@ public class SocketHandler {
 
 		sockList.remove(client);
 		
-		} catch (IOException e) {
+		} catch (SocketException se) {
+			sockList.remove(client);
+		}
+		catch (IOException e) {
             //System.out.println("Error, client disconnected " + e.getMessage());
 		}
 	}
