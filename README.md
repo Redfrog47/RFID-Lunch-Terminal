@@ -20,6 +20,8 @@ Names and IDs are stored locally on the Pi to avoid the security risk of having 
 
 When cards are scanned a buzzer plays a sound to give feedback
 
+Three LEDs indicate the status of the Pi (See [usage](https://github.com/Redfrog47/RFID-Lunch-Terminal/main/README.md#usage))
+
 ### Windows side features
 
 The windows app gives you the ability to interface with the data on the pi in many ways
@@ -29,10 +31,11 @@ It has two windows
   - Scan someone by their ID (if they don't have their card)
   - Pull current spreadsheet and save it to the windows computer
   - Open File Manager window
-- File Manager
+- Device Manager
   - Set up a card with a name and ID
   - Pull and save all spreadsheets to windows computer
   - Update designated lunch bell
+  - Turn off the Pi
   - Delete data
      - Delete all spreadsheets on the Pi
      - Delete the key containing names and IDs on the Pi
@@ -106,7 +109,7 @@ Enable the SPI Interface in `raspi-config`
     
     sudo systemctl daemon-reload
     
-    sudo systemctl enable java_app.service usb-gadget.service rfid-reader.service
+    sudo systemctl enable java_app.service usb-gadget.service rfid-reader.service status-checker.service
     
     cd ../shell
     
@@ -157,6 +160,7 @@ Enable the SPI Interface in `raspi-config`
     sudo reboot
 
   Notes:
+  - After you set up the Pi, take it off the internet with `sudo nmtui` to avoid issues with dates and times
   - When enabling the services we intentionally don't enable rfid-writer.service
   - Replacing cmdline.txt directly with the one from the repository is not actually a good idea
     - Instead you should just edit the text to have all the same arguments, but keep the origional PARTUUID number
@@ -164,6 +168,28 @@ Enable the SPI Interface in `raspi-config`
     - If you have acces to another linux machine you can run `lsblk -o PARTUUID,NAME` with the micro sd card inserted
     - Then find the one that ends in -02 and replace the PARTUUID in cmdline.txt with it
     - If you dont do this, the pi will not boot
+   
+   ## Usage
+   ### Pi
+   The Pi boots straight into functioning as the scan terminal
+
+   It is intended to be left plugged in all the time
+
+   The Pi does not have a way to sync time automatically, so it relies on the app to do it
+
+   After plugging in the Pi the time must be synced by openening the app (you don't need to push any buttons because it syncs automatically, but make sure to open the app after the LEDs come on)
+
+   The LEDs attached to the pi provide information about the status of the Pi
+   - Blinking green LED means the Pi is working in read mode
+   - Solid green LED means the Pi is working in write mode
+   - Blue LED being on means the app is connected
+   - Red LED indicates a problem
+
+   Red LED
+   - The red LED while green is blinking means the app has not been connected to sync the time
+   - Red LED with no light means the Pi has broken down internally, and you should reboot it
+
+   ### App
 
    ## Hardware
 
@@ -171,7 +197,7 @@ Enable the SPI Interface in `raspi-config`
    
    It also uses a buzzer connected to GPIO 23 and an led connected to GPIO 22
 
-   The Pi should be connected via a usb cable to a windows computer, which will provide power and connect the two computers
+   A usb cable can be used to connect the Pi to a windows computer
 
    ## Structure
 
