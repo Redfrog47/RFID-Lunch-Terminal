@@ -1,0 +1,11 @@
+[Unit]
+Description=Python App
+After=network.target
+
+[Service]
+ExecStart=/home/pi/rfid-venv/bin/python /home/pi/RFID-Lunch-Terminal/PythonStuff/StatusService.py
+WorkingDirectory=/home/pi/RFID-Lunch-Terminal/PythonStuff
+User=root
+
+[Install]
+WantedBy=multi-user.target

@@ -19,6 +19,7 @@ def connect() :
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             sock.connect((HOST, PORT))
             print("Socket connected")
+            sock.settimeout(2)
 
             green.blink(on_time=0.4, off_time=1.0, background=True)
             
@@ -49,11 +50,15 @@ def statusLoop() :
                 blue.off()
 
             if message == "ManagerClosed":
-                green.off()
+                green.stop()
                 green.blink(on_time=0.4, off_time=1.0, background=True)
 
             if message == "ManagerOpened":
+                green.stop()
                 green.on()
+
+        except sock.timeout:
+            continue
 
         except (BrokenPipeError, ConnectionResetError):
                 print("Status socket disconnected. Reconnecting...")
