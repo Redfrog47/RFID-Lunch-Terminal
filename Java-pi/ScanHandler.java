@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.time.LocalTime;
-import java.time.ZoneId;
 
 
 public class ScanHandler {
@@ -39,7 +38,7 @@ public class ScanHandler {
 			System.out.println();
 			return;
 		}
-		scan = new CardScanData(studentData, LocalTime.now(ZoneId.of("America/New_York")));
+		scan = new CardScanData(studentData, LocalTime.now());
 		//System.out.println("Card with index " + cardIndex + " has been scanned");
 		cardsScanned.add(scan);
 		}
