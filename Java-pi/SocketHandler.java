@@ -92,8 +92,6 @@ public class SocketHandler {
 			try {
 				scanHandler.FixCardScanTimes(DateTimeHandler.FindTimeDriftAndResetSystemTime(data));
 
-				PrintToAllSocks("Synced");
-
 				PrintToAllSocks("Connected");
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -129,7 +127,7 @@ public class SocketHandler {
 		for(int i = 0; i < sockList.size(); i++) {
 			try {
 				PrintWriter out = new PrintWriter(sockList.get(i).getOutputStream(), true);
-				out.println("From scan socket: " + data);
+				out.println(data);
 			} catch (IOException e) {
 					e.printStackTrace();
 				}

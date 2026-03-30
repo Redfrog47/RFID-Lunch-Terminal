@@ -40,12 +40,10 @@ def statusLoop() :
             message = data.decode().strip()
 
             print(message)
-
-            if message == "Synced":
-                red.off()
-
+            
             if message == "Connected":
                 blue.on()
+                red.off()
 
             if message == "Disconnected":
                 blue.off()
