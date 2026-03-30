@@ -4,6 +4,8 @@ import time
 from mfrc522 import SimpleMFRC522
 import RPi.GPIO as GPIO
 
+from gpiozero import Buzzer
+
 
 HOST = "127.0.0.1"
 PORT = 5002
