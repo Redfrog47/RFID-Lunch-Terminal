@@ -50,6 +50,7 @@ def statusLoop() :
                 blue.off()
 
             if message == "ManagerClosed":
+                green.off()
                 green.blink(None)
                 green.blink(on_time=0.4, off_time=1.0, background=True)
 
