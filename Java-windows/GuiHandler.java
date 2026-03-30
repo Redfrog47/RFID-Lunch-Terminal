@@ -45,7 +45,14 @@ public class GuiHandler {
     JFrame CreateMainFrameOOP() {
         JFrame mainFrame = new JFrame("Lunch Terminal");
         mainFrame.setSize(400, 300);
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+        mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); 
+
+        mainFrame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                CloseMainFrame();
+            }
+        });
+
         mainFrame.setLocationRelativeTo(null);
 
         ImageIcon icon = new ImageIcon(getClass().getResource("icon.png"));
@@ -127,6 +134,12 @@ public class GuiHandler {
 
     void ShowMainFrame() {
         mainCardLayout.show(mainCardPanel, "Main");
+    }
+
+    void CloseMainFrame() {
+        scanSocket.OnMainFrameClosed();
+
+        System.exit(0);
     }
 
     void NewKeyFrame() {

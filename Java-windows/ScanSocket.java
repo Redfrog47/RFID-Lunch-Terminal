@@ -83,4 +83,8 @@ public class ScanSocket {
 	void UpdatePiSystemTimeOnConnection() {
 		SendRealTime(FormatRealTime());
 	}
+
+	public void OnMainFrameClosed() {
+		out.println("S + Disconnected");
+	}
 }

@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -90,9 +91,15 @@ public class SocketHandler {
 		} else if (deviceId == 'T') {
 			try {
 				scanHandler.FixCardScanTimes(DateTimeHandler.FindTimeDriftAndResetSystemTime(data));
+
+				PrintToAllSocks("Synced");
+
+				PrintToAllSocks("Connected");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		} else if(deviceId == 'S') {
+			PrintToAllSocks(data);
 		}
 		else {
 			System.out.println("Error with input data");
@@ -118,15 +125,15 @@ public class SocketHandler {
 		scanHandler.UpdateKey();
 	}
 
-	//void DebugPrintToAllSocks(String data) {
-	//	for(int i = 0; i < sockList.size(); i++) {
-	//		try {
-	//			PrintWriter out = new PrintWriter(sockList.get(i).getOutputStream(), true);
-	//			out.println("From scan socket: " + data);
-	//		} catch (IOException e) {
-	//				e.printStackTrace();
-	//			}
-	//		}
-	//}
+	void PrintToAllSocks(String data) {
+		for(int i = 0; i < sockList.size(); i++) {
+			try {
+				PrintWriter out = new PrintWriter(sockList.get(i).getOutputStream(), true);
+				out.println("From scan socket: " + data);
+			} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+	}
 	
 }
