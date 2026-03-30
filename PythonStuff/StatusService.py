@@ -1,7 +1,6 @@
 import socket
 import time
 
-import RPi.GPIO as GPIO
 from gpiozero import LED
 
 HOST = "127.0.0.1"
@@ -21,8 +20,9 @@ def connect() :
             print("Socket connected")
             sock.settimeout(2)
 
+            green.blink(None)
             green.blink(on_time=0.4, off_time=1.0, background=True)
-            
+
             return sock
         except ConnectionRefusedError:
            print("Connection failed")
@@ -41,7 +41,7 @@ def statusLoop() :
             message = data.decode().strip()
 
             print(message)
-            
+
             if message == "Connected":
                 blue.on()
                 red.off()
@@ -50,22 +50,23 @@ def statusLoop() :
                 blue.off()
 
             if message == "ManagerClosed":
-                green.stop()
+                green.blink(None)
                 green.blink(on_time=0.4, off_time=1.0, background=True)
 
             if message == "ManagerOpened":
-                green.stop()
+                green.blink(None)
                 green.on()
 
         except (socket.timeout, TimeoutError):
             continue
 
-        except (BrokenPipeError, ConnectionResetError):
+        except (BrokenPipeError, ConnectionResetError, OSError):
                 print("Status socket disconnected. Reconnecting...")
+                green.blink(None)
+                green.off()
+                red.on()
                 sock.close()
                 sock = connect()
-                green.stop()
-                green.off()
 
         except Exception as e:
             print(f"Status loop error: {e}")
@@ -76,4 +77,6 @@ try :
     red.on()
     statusLoop()
 finally :
-    GPIO.cleanup()
+    green.blink(None)
+    red.off()
+    blue.off()
