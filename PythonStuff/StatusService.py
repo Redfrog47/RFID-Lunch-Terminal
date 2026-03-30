@@ -57,13 +57,14 @@ def statusLoop() :
                 green.stop()
                 green.on()
 
-        except sock.timeout:
+        except (socket.timeout, TimeoutError):
             continue
 
         except (BrokenPipeError, ConnectionResetError):
                 print("Status socket disconnected. Reconnecting...")
                 sock.close()
                 sock = connect()
+                green.stop()
                 green.off()
 
         except Exception as e:
