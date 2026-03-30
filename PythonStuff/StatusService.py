@@ -9,6 +9,7 @@ PORT = 5000
 RECONNECT_DELAY = 3
 
 red = LED(24)
+green = LED(22)
 blue = LED(27)
 
 def connect() :
@@ -18,6 +19,8 @@ def connect() :
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             sock.connect((HOST, PORT))
             print("Socket connected")
+
+            green.blink(on_time=0.4, off_time=1.0, background=True)
             
             return sock
         except ConnectionRefusedError:
@@ -36,19 +39,22 @@ def statusLoop() :
 
             message = data.decode().strip()
 
-            if message.startswith("Synced"):
+            print(message)
+
+            if message == "Synced":
                 red.off()
 
-            if message.startswith("Connected"):
+            if message == "Connected":
                 blue.on()
 
-            if message.startswith("Disconnected"):
+            if message == "Disconnected":
                 blue.off()
 
         except (BrokenPipeError, ConnectionResetError):
                 print("Status socket disconnected. Reconnecting...")
                 sock.close()
                 sock = connect()
+                green.off()
 
         except Exception as e:
             print(f"Status loop error: {e}")
