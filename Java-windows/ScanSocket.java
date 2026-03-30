@@ -87,4 +87,12 @@ public class ScanSocket {
 	public void OnMainFrameClosed() {
 		out.println("SDisconnected");
 	}
+
+	public void OnKeyFrameClosed() {
+		out.println("SManagerClosed");
+	}
+
+	public void OnKeyFrameOpened() {
+		out.println("SManagerOpened");
+	}
 }

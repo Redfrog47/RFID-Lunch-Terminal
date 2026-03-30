@@ -3,7 +3,6 @@ import time
 
 from mfrc522 import SimpleMFRC522
 import RPi.GPIO as GPIO
-from gpiozero import Buzzer, LED
 
 
 HOST = "127.0.0.1"
@@ -12,7 +11,6 @@ RECONNECT_DELAY = 3
 
 reader = SimpleMFRC522()
 buzzer = Buzzer(23)
-led = LED(22)
 
 def beep():
     buzzer.beep(on_time=0.3, off_time=0.2, n=1, background=True)
@@ -25,9 +23,6 @@ def connect() :
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             sock.connect((HOST, PORT))
             print("Socket connected")
-
-            led.on()
-            
             return sock
         except ConnectionRefusedError:
            print("Connection failed")
@@ -61,7 +56,6 @@ def writeLoop() :
                 print("Write socket disconnected. Reconnecting...")
                 sock.close()
                 sock = connect()
-                led.off()
 
         except Exception as e:
             print(f"Write loop error: {e}")
@@ -78,5 +72,4 @@ def write_index(index) :
 try :
     writeLoop()
 finally :
-    led.off()
     GPIO.cleanup()

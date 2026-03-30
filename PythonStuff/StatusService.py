@@ -48,6 +48,13 @@ def statusLoop() :
             if message == "Disconnected":
                 blue.off()
 
+            if message == "ManagerClosed":
+                green.off()
+                green.blink(on_time=0.4, off_time=1.0, background=True)
+
+            if message == "ManagerOpened":
+                green.on()
+
         except (BrokenPipeError, ConnectionResetError):
                 print("Status socket disconnected. Reconnecting...")
                 sock.close()

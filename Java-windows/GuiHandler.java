@@ -146,6 +146,7 @@ public class GuiHandler {
         keyFrame = CreateKeyFrameOOP();
         keyFrame.setVisible(true);
         sheetSocket.OnFileManagerOpened();
+        scanSocket.OnKeyFrameOpened();
 
         HideMainFrame();
     }
