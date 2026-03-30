@@ -154,6 +154,7 @@ public class GuiHandler {
     void CloseKeyFrame() {
         keyFrame = null;
         sheetSocket.OnFileManagerClosed();
+        scanSocket.OnKeyFrameClosed();
 
         ShowMainFrame();
     }
