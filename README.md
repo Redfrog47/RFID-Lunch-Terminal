@@ -198,7 +198,7 @@ Enable the SPI Interface in `raspi-config`
 
    Internally on the Pi the spreadsheets are saved to /home/pi/RFID-Lunch-Terminal/Java-pi/Spreadsheets
 
-   The data key representing names and IDs is called "test.csv" and is in /home/pi/RFID-Lunch-Terminal/Java-pi (I guess I forgot to rename it 😭)
+   The data key representing names and IDs is called "key.csv" and is in /home/pi/RFID-Lunch-Terminal/Java-pi
 
    For security reasons, the Pi only saves an index to an rfid card representing the persons location in the test.csv key file
 
