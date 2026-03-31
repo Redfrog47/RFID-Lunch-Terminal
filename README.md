@@ -200,7 +200,7 @@ Enable the SPI Interface in `raspi-config`
 
    The data key representing names and IDs is called "key.csv" and is in /home/pi/RFID-Lunch-Terminal/Java-pi
 
-   For security reasons, the Pi only saves an index to an rfid card representing the persons location in the test.csv key file
+   For security reasons, the Pi only saves an index to an rfid card representing the persons location in the key.csv key file
 
    ## Notes
 
