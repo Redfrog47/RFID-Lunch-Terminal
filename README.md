@@ -20,7 +20,7 @@ Names and IDs are stored locally on the Pi to avoid the security risk of having 
 
 When cards are scanned a buzzer plays a sound to give feedback
 
-Three LEDs indicate the status of the Pi (See [usage](https://github.com/Redfrog47/RFID-Lunch-Terminal/main/README.md#usage))
+Three LEDs indicate the status of the Pi (See Usage)
 
 ### Windows side features
 
@@ -81,23 +81,14 @@ To create an app-image from in the Java-windows directory:
     jpackage --name CardTerminal --input package --main-jar app.jar --main-class Main --type app-image --icon icon.ico
 
 #### Pi setup
-**Rant**
 
-*Hopefully all of this will be correct. I am writing it from memory so I kinda doubt it will be 😭*
-
-*I have set up a blank pi like three times now, and not a single one went smoothly*
-
-*I had issues with getting into gadget mode, python dependencies regarding GPIO, and dnsmasq, but I think I figured out how to solve them all*
-
-*In theory these steps avoid those issues*
-
-**Start here**
-
-Set up a pi with Pi OS Lite with the user called "pi" and an internet connection
+Set up a pi with Pi OS Lite with the user called "pi" and an internet connection (it is omportant to remove this connection before rebooting)
 
 Enable the SPI Interface in `raspi-config`
 
     cd /home/pi
+
+    sudo apt update
 
     sudo apt install git
 
@@ -105,7 +96,7 @@ Enable the SPI Interface in `raspi-config`
     
     cd /home/pi/RFID-Lunch-Terminal/Pi-config/services
     
-    cp *.service /etc/systemd/system
+    sudo cp *.service /etc/systemd/system
     
     sudo systemctl daemon-reload
     
@@ -113,7 +104,7 @@ Enable the SPI Interface in `raspi-config`
     
     cd ../shell
     
-    cp usb-gadget.sh /usr/bin
+    sudo cp usb-gadget.sh /usr/bin
     
     sudo chmod +x /usr/bin/usb-gadget.sh
     
@@ -151,11 +142,11 @@ Enable the SPI Interface in `raspi-config`
 
     cd /boot/firmware
 
-    rm config.txt cmdline.txt
+    sudo rm config.txt cmdline.txt
 
     cd home/pi/RFID-Lunch-Terminal/Pi-config/config
 
-    cp config.txt cmdline.txt /boot/firmware
+    sudo cp config.txt cmdline.txt /boot/firmware
 
     sudo reboot
 
@@ -190,6 +181,8 @@ Enable the SPI Interface in `raspi-config`
    - Red LED with no light means the Pi has broken down internally, and you should reboot it
 
    ### App
+
+   The app can be used control the Pi and it's data as described in Features
 
    ## Hardware
 
