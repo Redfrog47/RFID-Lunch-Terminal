@@ -188,7 +188,7 @@ Enable the SPI Interface in `raspi-config`
 
    This poject uses an MFRC522 rfid read/write module
    
-   It also uses a buzzer connected to GPIO 23 and an led connected to GPIO 22
+   It also uses a buzzer connected to GPIO 23 and LEDs connected to GPIO 22, 24, and 27
 
    A usb cable can be used to connect the Pi to a windows computer
 
