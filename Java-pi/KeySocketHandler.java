@@ -82,10 +82,10 @@ public class KeySocketHandler {
 				}
 				if(data.length() > 4 && data.substring(0, 4).equals("Bell")) {
 					String timeString = data.substring(4);
-					new Thread(() -> LunchBell.UpdateBellTime(timeString)).start();
+					new Thread(() -> TimeFile.UpdateBellFile(timeString)).start();
 				}
 				if(data.length() > 3 && data.substring(0, 4).equals("Time")) {
-					new Thread(() -> SendCurrentBellTime(LunchBell.BellTimeFromFile().toString())).start();
+					new Thread(() -> SendCurrentBellTime(TimeFile.TimeFromFile(GlobalFilepaths.globalBellPath).toString())).start();
 				}
 				if(data.length() > 7 && data.substring(0, 8).equals("Shutdown")) {
 					new Thread(() -> ShutdownPi()).start();

@@ -38,7 +38,7 @@ public class CardScanData {
 		}
 		
 		for(int i = 0; i < times.size(); i++) {
-			if(times.get(i).isAfter(LunchBell.bellTime)) {
+			if(times.get(i).isAfter(TimeFile.bellTime)) {
 				tardy = true;
 			}
 		}
@@ -47,9 +47,13 @@ public class CardScanData {
 	public void FixTimes(int timeDrift) {
 		System.out.println("Fixing times for student: " + student.id);
 		for (int i = 0; i < times.size(); i++) {
-			System.out.println(times.get(i).toString() + " -> " + times.get(i).plusMinutes(timeDrift));
-			LocalTime time = times.get(i).plusMinutes(timeDrift);
-			times.set(i, time);
+			
+			if(times.get(i).isAfter(TimeFile.lastSyncTime)) {
+				System.out.println(times.get(i).toString() + " -> " + times.get(i).plusMinutes(timeDrift));
+				LocalTime time = times.get(i).plusMinutes(timeDrift);
+				times.set(i, time);
+			}
+			
 		}
 		System.out.println();
 	}

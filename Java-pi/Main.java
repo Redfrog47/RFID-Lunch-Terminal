@@ -4,7 +4,7 @@ public class Main {
 		String date = ActiveFileHandler.GetDate();
 		GlobalFilepaths.SetGlobalSheetPath(date);
 
-		LunchBell.LoadBellTime();
+		TimeFile.LoadBellTime();
 
 		SocketHandler socketHandle = new SocketHandler(5000);
 		WindowsConnectionHandler windowsConnection = new WindowsConnectionHandler(5001);

@@ -1,5 +1,6 @@
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class ActiveFileHandler {
 
@@ -25,6 +26,8 @@ public class ActiveFileHandler {
                 GlobalFilepaths.SetGlobalSheetPath(date);
 
                 socketHandler.scanHandler.ClearScanHandler();
+
+                TimeFile.UpdateSyncFile("00:00");
             }
 
             Thread.sleep(60000);

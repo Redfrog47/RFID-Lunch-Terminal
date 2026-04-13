@@ -8,13 +8,14 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-public class LunchBell {
+public class TimeFile {
     public static LocalTime bellTime;
+    public static LocalTime lastSyncTime;
 
-    public static LocalTime BellTimeFromFile() {
+    public static LocalTime TimeFromFile(String filePath) {
         String timeString = "";
 
-        Path path = Paths.get(GlobalFilepaths.globalBellPath);
+        Path path = Paths.get(filePath);
 
         try {
             InputStreamReader streamReader = new InputStreamReader(Files.newInputStream(path));
@@ -44,10 +45,10 @@ public class LunchBell {
         }
     }
 
-    public static void SaveBellTimeToFile(LocalTime time) {
+    public static void SaveTimeToFile(LocalTime time, String filePath) {
         String timeString = time.toString();
 
-        Path path = Paths.get(GlobalFilepaths.globalBellPath);
+        Path path = Paths.get(filePath);
 
         try {
             Files.write(path, timeString.getBytes());
@@ -56,12 +57,12 @@ public class LunchBell {
         }
     }
 
-    public static void UpdateBellTime(String timeString) {
+    public static void UpdateBellFile(String timeString) {
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
             LocalTime time = LocalTime.parse(timeString, formatter);
 
-            SaveBellTimeToFile(time);
+            SaveTimeToFile(time, GlobalFilepaths.globalBellPath);
             bellTime = time;
         } catch (DateTimeParseException e) {
             e.printStackTrace();
@@ -69,6 +70,22 @@ public class LunchBell {
     }
 
     public static void LoadBellTime() {
-        bellTime = BellTimeFromFile();
+        bellTime = TimeFromFile(GlobalFilepaths.globalBellPath);
+    }
+
+    public static void UpdateSyncFile(String timeString) {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+            LocalTime time = LocalTime.parse(timeString, formatter);
+
+            SaveTimeToFile(time, GlobalFilepaths.globalSyncPath);
+            lastSyncTime = time;
+        } catch (DateTimeParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void LoadSyncTime() {
+        lastSyncTime = TimeFromFile(GlobalFilepaths.globalSyncPath);
     }
 }
