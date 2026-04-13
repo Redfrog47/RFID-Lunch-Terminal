@@ -73,11 +73,8 @@ public class TimeFile {
         bellTime = TimeFromFile(GlobalFilepaths.globalBellPath);
     }
 
-    public static void UpdateSyncFile(String timeString) {
+    public static void UpdateSyncFile(LocalTime time) {
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-            LocalTime time = LocalTime.parse(timeString, formatter);
-
             SaveTimeToFile(time, GlobalFilepaths.globalSyncPath);
             lastSyncTime = time;
         } catch (DateTimeParseException e) {

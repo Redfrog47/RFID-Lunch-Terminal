@@ -27,7 +27,7 @@ public class ActiveFileHandler {
 
                 socketHandler.scanHandler.ClearScanHandler();
 
-                TimeFile.UpdateSyncFile("00:00");
+                TimeFile.UpdateSyncFile(LocalTime.MIDNIGHT);
             }
 
             Thread.sleep(60000);

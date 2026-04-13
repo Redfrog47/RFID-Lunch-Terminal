@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class SocketHandler {
@@ -95,6 +96,8 @@ public class SocketHandler {
 		} else if (deviceId == 'T') {
 			try {
 				scanHandler.FixCardScanTimes(DateTimeHandler.FindTimeDriftAndResetSystemTime(data));
+
+				TimeFile.UpdateSyncFile(LocalTime.now().toString());
 
 				PrintToAllSocks("Connected");
 			} catch (Exception e) {
