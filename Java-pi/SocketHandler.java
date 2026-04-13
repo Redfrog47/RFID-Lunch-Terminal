@@ -97,7 +97,7 @@ public class SocketHandler {
 			try {
 				scanHandler.FixCardScanTimes(DateTimeHandler.FindTimeDriftAndResetSystemTime(data));
 
-				TimeFile.UpdateSyncFile(LocalTime.now().toString());
+				TimeFile.UpdateSyncFile(LocalTime.now());
 
 				PrintToAllSocks("Connected");
 			} catch (Exception e) {
