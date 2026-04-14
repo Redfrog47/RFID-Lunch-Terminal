@@ -150,6 +150,7 @@ public class SocketHandler {
 	void GetLatestSyncedTime(LocalTime time) {
 		if(time.isAfter(lastSync)) {
 			lastSync = time;
+			System.out.println("New latest sync: " + time.toString());
 		}
 	}
 	

@@ -77,6 +77,7 @@ public class TimeFile {
         try {
             SaveTimeToFile(time, GlobalFilepaths.globalSyncPath);
             lastSyncTime = time;
+            System.out.println("lastSyncTime set to: " + lastSyncTime.toString());
         } catch (DateTimeParseException e) {
             e.printStackTrace();
         }

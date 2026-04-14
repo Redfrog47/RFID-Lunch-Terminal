@@ -56,7 +56,7 @@ public class CardScanData {
 
 				times.set(i, time);
 			} else {
-				System.out.println(times.get(i).toString() + " is after last synced time");
+				System.out.println(times.get(i).toString() + " is before last synced time");
 			}
 			
 		}
