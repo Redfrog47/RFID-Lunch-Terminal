@@ -8,14 +8,13 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-public class TimeFile {
+public class LunchBell {
     public static LocalTime bellTime;
-    public static LocalTime lastSyncTime;
 
-    public static LocalTime TimeFromFile(String filePath) {
+    public static LocalTime BellTimeFromFile() {
         String timeString = "";
 
-        Path path = Paths.get(filePath);
+        Path path = Paths.get(GlobalFilepaths.globalBellPath);
 
         try {
             InputStreamReader streamReader = new InputStreamReader(Files.newInputStream(path));
@@ -45,10 +44,10 @@ public class TimeFile {
         }
     }
 
-    public static void SaveTimeToFile(LocalTime time, String filePath) {
+    public static void SaveBellTimeToFile(LocalTime time) {
         String timeString = time.toString();
 
-        Path path = Paths.get(filePath);
+        Path path = Paths.get(GlobalFilepaths.globalBellPath);
 
         try {
             Files.write(path, timeString.getBytes());
@@ -57,12 +56,12 @@ public class TimeFile {
         }
     }
 
-    public static void UpdateBellFile(String timeString) {
+    public static void UpdateBellTime(String timeString) {
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
             LocalTime time = LocalTime.parse(timeString, formatter);
 
-            SaveTimeToFile(time, GlobalFilepaths.globalBellPath);
+            SaveBellTimeToFile(time);
             bellTime = time;
         } catch (DateTimeParseException e) {
             e.printStackTrace();
@@ -70,20 +69,6 @@ public class TimeFile {
     }
 
     public static void LoadBellTime() {
-        bellTime = TimeFromFile(GlobalFilepaths.globalBellPath);
-    }
-
-    public static void UpdateSyncFile(LocalTime time) {
-        try {
-            SaveTimeToFile(time, GlobalFilepaths.globalSyncPath);
-            lastSyncTime = time;
-            System.out.println("lastSyncTime set to: " + lastSyncTime.toString());
-        } catch (DateTimeParseException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void LoadSyncTime() {
-        lastSyncTime = TimeFromFile(GlobalFilepaths.globalSyncPath);
+        bellTime = BellTimeFromFile();
     }
 }

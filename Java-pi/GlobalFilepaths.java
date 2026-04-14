@@ -2,7 +2,6 @@ public class GlobalFilepaths {
     public static String globalSheetPath = "SocketSheetTest.csv";
     public static String globalKeyPath = "key.csv";
     public static String globalBellPath = "bell.txt";
-    public static String globalSyncPath = "sync.txt";
 
     public static void SetGlobalSheetPath(String newPath) {
         globalSheetPath = newPath;

@@ -4,7 +4,7 @@ public class Main {
 		String date = ActiveFileHandler.GetDate();
 		GlobalFilepaths.SetGlobalSheetPath(date);
 
-		TimeFile.LoadBellTime();
+		LunchBell.LoadBellTime();
 
 		SocketHandler socketHandle = new SocketHandler(5000);
 		WindowsConnectionHandler windowsConnection = new WindowsConnectionHandler(5001);
@@ -13,8 +13,6 @@ public class Main {
 		keySocket.SetSockHandle(socketHandle);
 
 		ActiveFileHandler activeFileHandler = new ActiveFileHandler(socketHandle);
-
-		socketHandle.activeFileHandler = activeFileHandler;
 
 		new Thread(socketHandle::StartSocketServer).start();
 		new Thread(windowsConnection::StartSocketServer).start();

@@ -1,6 +1,5 @@
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 public class ActiveFileHandler {
 
@@ -20,28 +19,17 @@ public class ActiveFileHandler {
 
     public void UpdateDate() throws InterruptedException {
         while (true) {
-            ResetOnNewDate();
+            String date = GetDate();
+
+            if(CheckIfNewDate(date)) {
+                GlobalFilepaths.SetGlobalSheetPath(date);
+
+                socketHandler.scanHandler.ClearScanHandler();
+            }
 
             Thread.sleep(60000);
         }
     }
-
-    public boolean ResetOnNewDate() {
-        String date = GetDate();
-
-        if(CheckIfNewDate(date)) {
-            GlobalFilepaths.SetGlobalSheetPath(date);
-
-            socketHandler.scanHandler.ClearScanHandler();
-
-            TimeFile.UpdateSyncFile(LocalTime.MIDNIGHT);
-
-            return true;
-        }
-
-        return false;
-    }
-
 
     public boolean CheckIfNewDate(String date) {
         return !date.equals(GlobalFilepaths.globalSheetPath);

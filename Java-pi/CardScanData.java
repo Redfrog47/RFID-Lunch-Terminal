@@ -38,27 +38,18 @@ public class CardScanData {
 		}
 		
 		for(int i = 0; i < times.size(); i++) {
-			if(times.get(i).isAfter(TimeFile.bellTime)) {
+			if(times.get(i).isAfter(LunchBell.bellTime)) {
 				tardy = true;
 			}
 		}
 	}
 
-	public void FixTimes(int timeDrift, SocketHandler socketHandler) {
+	public void FixTimes(int timeDrift) {
 		System.out.println("Fixing times for student: " + student.id);
 		for (int i = 0; i < times.size(); i++) {
-			
-			if(times.get(i).isAfter(TimeFile.lastSyncTime)) {
-				System.out.println(times.get(i).toString() + " -> " + times.get(i).plusMinutes(timeDrift));
-				LocalTime time = times.get(i).plusMinutes(timeDrift);
-
-				socketHandler.GetLatestSyncedTime(time);
-
-				times.set(i, time);
-			} else {
-				System.out.println(times.get(i).toString() + " is before last synced time");
-			}
-			
+			System.out.println(times.get(i).toString() + " -> " + times.get(i).plusMinutes(timeDrift));
+			LocalTime time = times.get(i).plusMinutes(timeDrift);
+			times.set(i, time);
 		}
 		System.out.println();
 	}

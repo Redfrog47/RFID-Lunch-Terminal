@@ -24,7 +24,7 @@ public class DateTimeHandler {
     
     ///@ Assumes realTimeFromWindows is in the format: yyyy-MM-dd HH:mm:ss
     ///@ Returns the time drift in minutes
-    public static int FindTimeDriftAndResetSystemTime(String realTimeFromWindows, ActiveFileHandler activeFileHandler) throws Exception {
+    public static int FindTimeDriftAndResetSystemTime(String realTimeFromWindows) throws Exception {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
         LocalTime realLocalTime = LocalDateTime.parse(realTimeFromWindows, formatter).toLocalTime();
@@ -33,10 +33,7 @@ public class DateTimeHandler {
 
         SetSystemTime(realTimeFromWindows);
 
-        if(activeFileHandler.ResetOnNewDate()) {
-            System.out.println("New date. Time drift is 0");
-            return 0;
-        }
+        ActiveFileHandler.GetDate();
 
         System.out.println("Time drift: " + timeDrift);
 
