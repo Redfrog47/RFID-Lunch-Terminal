@@ -43,14 +43,4 @@ public class CardScanData {
 			}
 		}
 	}
-
-	public void FixTimes(int timeDrift) {
-		System.out.println("Fixing times for student: " + student.id);
-		for (int i = 0; i < times.size(); i++) {
-			System.out.println(times.get(i).toString() + " -> " + times.get(i).plusMinutes(timeDrift));
-			LocalTime time = times.get(i).plusMinutes(timeDrift);
-			times.set(i, time);
-		}
-		System.out.println();
-	}
 }

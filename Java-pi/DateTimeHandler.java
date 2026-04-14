@@ -6,37 +6,48 @@ import java.time.Duration;
 public class DateTimeHandler {
     /// Takes date and time formatted as "yyyy-MM-dd HH:mm:ss"
     public static void SetSystemTime(String formattedDateTime) throws Exception {
-        ProcessBuilder processBuilder = new ProcessBuilder(
+        ProcessBuilder dateProcessBuilder = new ProcessBuilder(
             "date", "-s", formattedDateTime
         );
 
-        Process process = processBuilder.start();
+        Process dateProcess = dateProcessBuilder.start();
 
-        int exitCode = process.waitFor();
+        int dateExitCode = dateProcess.waitFor();
 
-        if(exitCode != 0) {
+        if(dateExitCode != 0) {
             throw new RuntimeException("Failed to set date and time to: " + formattedDateTime);
+        } else {
+            System.out.println("Set system date and time to: " + formattedDateTime);
         }
 
-        System.out.println("Set date and time to: " + formattedDateTime);
+        ProcessBuilder hwclockProcessBuilder = new ProcessBuilder(
+            "hwclock", "-w"
+        );
+
+        Process hwclockProcess = hwclockProcessBuilder.start();
+
+        int hwclockExitCode = hwclockProcess.waitFor();
+
+        if( hwclockExitCode != 0) {
+            throw new RuntimeException("Failed to update RTC");
+        } else {
+            System.out.println("Wrote to RTC");
+        }
     }
 
     
     ///@ Assumes realTimeFromWindows is in the format: yyyy-MM-dd HH:mm:ss
-    ///@ Returns the time drift in minutes
-    public static int FindTimeDriftAndResetSystemTime(String realTimeFromWindows) throws Exception {
+    public static void FindTimeDriftAndResetSystemTime(String realTimeFromWindows) throws Exception {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
         LocalTime realLocalTime = LocalDateTime.parse(realTimeFromWindows, formatter).toLocalTime();
 
         int timeDrift = (int)Duration.between(LocalTime.now(), realLocalTime).toMinutes();
 
-        SetSystemTime(realTimeFromWindows);
-
-        ActiveFileHandler.GetDate();
-
+        if(timeDrift > 1) {
+            SetSystemTime(realTimeFromWindows);
+        }
+        
         System.out.println("Time drift: " + timeDrift);
-
-        return timeDrift;
     }
 }

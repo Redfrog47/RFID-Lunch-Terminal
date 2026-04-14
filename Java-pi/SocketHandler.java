@@ -94,7 +94,7 @@ public class SocketHandler {
 			scanHandler.ScanStudentById(studentId);
 		} else if (deviceId == 'T') {
 			try {
-				scanHandler.FixCardScanTimes(DateTimeHandler.FindTimeDriftAndResetSystemTime(data));
+				DateTimeHandler.FindTimeDriftAndResetSystemTime(data);
 
 				PrintToAllSocks("Connected");
 			} catch (Exception e) {

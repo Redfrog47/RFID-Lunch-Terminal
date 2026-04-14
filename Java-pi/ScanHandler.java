@@ -94,12 +94,4 @@ public class ScanHandler {
 	public void UpdateKey() {
 		key.UpdateDataKey();
 	}
-
-	public void FixCardScanTimes(int timeDrift) {
-		for(int i = 0; i < cardsScanned.size(); i++) {
-			cardsScanned.get(i).FixTimes(timeDrift);
-		}
-
-		SaveToSheet(GlobalFilepaths.globalSheetPath);
-	}
 }
