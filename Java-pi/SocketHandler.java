@@ -14,6 +14,10 @@ public class SocketHandler {
 	ScanHandler scanHandler;
 
 	private ArrayList<Socket> sockList;
+
+	ActiveFileHandler activeFileHandler;
+
+	LocalTime lastSync;
 	
 	public SocketHandler(int _port) {
 		port = _port;
@@ -95,9 +99,11 @@ public class SocketHandler {
 			scanHandler.ScanStudentById(studentId);
 		} else if (deviceId == 'T') {
 			try {
-				scanHandler.FixCardScanTimes(DateTimeHandler.FindTimeDriftAndResetSystemTime(data));
+				lastSync = TimeFile.lastSyncTime;
 
-				TimeFile.UpdateSyncFile(LocalTime.now());
+				scanHandler.FixCardScanTimes(DateTimeHandler.FindTimeDriftAndResetSystemTime(data, activeFileHandler), this);
+
+				TimeFile.UpdateSyncFile(lastSync);
 
 				PrintToAllSocks("Connected");
 			} catch (Exception e) {
@@ -139,6 +145,12 @@ public class SocketHandler {
 					e.printStackTrace();
 				}
 			}
+	}
+
+	void GetLatestSyncedTime(LocalTime time) {
+		if(time.isAfter(lastSync)) {
+			lastSync = time;
+		}
 	}
 	
 }

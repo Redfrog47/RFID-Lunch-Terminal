@@ -14,6 +14,8 @@ public class Main {
 
 		ActiveFileHandler activeFileHandler = new ActiveFileHandler(socketHandle);
 
+		socketHandle.activeFileHandler = activeFileHandler;
+
 		new Thread(socketHandle::StartSocketServer).start();
 		new Thread(windowsConnection::StartSocketServer).start();
 		new Thread(keySocket::StartSocketServer).start();

@@ -44,14 +44,19 @@ public class CardScanData {
 		}
 	}
 
-	public void FixTimes(int timeDrift) {
+	public void FixTimes(int timeDrift, SocketHandler socketHandler) {
 		System.out.println("Fixing times for student: " + student.id);
 		for (int i = 0; i < times.size(); i++) {
 			
 			if(times.get(i).isAfter(TimeFile.lastSyncTime)) {
 				System.out.println(times.get(i).toString() + " -> " + times.get(i).plusMinutes(timeDrift));
 				LocalTime time = times.get(i).plusMinutes(timeDrift);
+
+				socketHandler.GetLatestSyncedTime(time);
+
 				times.set(i, time);
+			} else {
+				System.out.println(times.get(i).toString() + " is after last synced time");
 			}
 			
 		}

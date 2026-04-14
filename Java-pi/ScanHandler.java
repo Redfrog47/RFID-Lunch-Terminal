@@ -95,9 +95,9 @@ public class ScanHandler {
 		key.UpdateDataKey();
 	}
 
-	public void FixCardScanTimes(int timeDrift) {
+	public void FixCardScanTimes(int timeDrift, SocketHandler socketHandler) {
 		for(int i = 0; i < cardsScanned.size(); i++) {
-			cardsScanned.get(i).FixTimes(timeDrift);
+			cardsScanned.get(i).FixTimes(timeDrift, socketHandler);
 		}
 
 		SaveToSheet(GlobalFilepaths.globalSheetPath);

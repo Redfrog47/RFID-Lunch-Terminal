@@ -20,19 +20,28 @@ public class ActiveFileHandler {
 
     public void UpdateDate() throws InterruptedException {
         while (true) {
-            String date = GetDate();
-
-            if(CheckIfNewDate(date)) {
-                GlobalFilepaths.SetGlobalSheetPath(date);
-
-                socketHandler.scanHandler.ClearScanHandler();
-
-                TimeFile.UpdateSyncFile(LocalTime.MIDNIGHT);
-            }
+            ResetOnNewDate();
 
             Thread.sleep(60000);
         }
     }
+
+    public boolean ResetOnNewDate() {
+        String date = GetDate();
+
+        if(CheckIfNewDate(date)) {
+            GlobalFilepaths.SetGlobalSheetPath(date);
+
+            socketHandler.scanHandler.ClearScanHandler();
+
+            TimeFile.UpdateSyncFile(LocalTime.MIDNIGHT);
+
+            return true;
+        }
+
+        return false;
+    }
+
 
     public boolean CheckIfNewDate(String date) {
         return !date.equals(GlobalFilepaths.globalSheetPath);
