@@ -84,7 +84,7 @@ To create an app-image from in the Java-windows directory:
 
 Set up a pi with Pi OS Lite with the user called "pi" and an internet connection (it is omportant to remove this connection before rebooting)
 
-Enable the SPI Interface in `raspi-config`
+Enable the SPI and I2C Interfaces in `raspi-config`
 
     cd /home/pi
 
@@ -147,6 +147,8 @@ Enable the SPI Interface in `raspi-config`
     cd home/pi/RFID-Lunch-Terminal/Pi-config/config
 
     sudo cp config.txt cmdline.txt /boot/firmware
+
+    sudo apt install util-linux-extra
 
     sudo reboot
 
