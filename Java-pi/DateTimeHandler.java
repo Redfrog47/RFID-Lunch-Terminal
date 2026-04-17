@@ -44,7 +44,7 @@ public class DateTimeHandler {
 
         int timeDrift = (int)Duration.between(LocalTime.now(), realLocalTime).toMinutes();
 
-        if(timeDrift > 1) {
+        if(timeDrift > 1 || timeDrift < 0) {
             SetSystemTime(realTimeFromWindows);
         }
         
