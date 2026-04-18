@@ -179,8 +179,7 @@ Enable the SPI and I2C Interfaces in `raspi-config`
    - Red LED indicates a problem
 
    Red LED
-   - The red LED while green is blinking means the app has not been connected to sync the time
-   - Red LED with no light means the Pi has broken down internally, and you should reboot it
+   - Red LED means the Pi has broken down internally, and you should reboot it
 
    ### App
 

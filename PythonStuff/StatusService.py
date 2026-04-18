@@ -44,7 +44,6 @@ def statusLoop() :
 
             if message == "Connected":
                 blue.on()
-                red.off()
 
             if message == "Disconnected":
                 blue.off()
@@ -75,7 +74,6 @@ def statusLoop() :
 # Main entry thing
 # I still hate python
 try :
-    red.on()
     statusLoop()
 finally :
     green.blink(None)
